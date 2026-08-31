@@ -4,7 +4,7 @@ A lightweight, machine-learning-driven Intrusion Detection System (IDS) and inli
 
 ---
 
-## Project Overview
+## 📌 Project Overview
 
 Modern connected vehicles rely heavily on the CAN bus protocol for inter-ECU (Electronic Control Unit) communication. However, standard CAN bus lacks inherent authentication and encryption, leaving it vulnerable to frame injection, spoofing, and Denial of Service (DoS) attacks.
 
@@ -12,7 +12,7 @@ Modern connected vehicles rely heavily on the CAN bus protocol for inter-ECU (El
 
 ---
 
-## System Architecture & Workflow
+## 🛠️ System Architecture & Workflow
 
 1. **Virtual CAN Infrastructure (`vcan0`):** SocketCAN interface simulating an in-vehicle network bus.
 2. **ECU Telemetry Simulation (`ecu_engine.c`):** Generates legitimate vehicle telemetry (Engine Speed, RPM, Coolant Temp).
@@ -23,8 +23,9 @@ Modern connected vehicles rely heavily on the CAN bus protocol for inter-ECU (El
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
+```text
 ├── ecu_engine.c                 # C-based ECU telemetry generator
 ├── logger.py                    # Telemetry capture utility (Normal)
 ├── can_dataset.csv              # Baseline normal CAN traffic dataset
@@ -36,47 +37,3 @@ Modern connected vehicles rely heavily on the CAN bus protocol for inter-ECU (El
 ├── firewall_filter.py           # Real-time packet filtering engine
 ├── README.md                    # Project documentation
 └── Week3_Week4_Final_Report.md  # Final performance evaluation report
-
----
-
-## Setup and Execution
-
-### Prerequisites
-* Kali Linux / Ubuntu (Linux Kernel with SocketCAN support)
-* Python 3.10+
-* GCC Compiler (`build-essential`)
-* `can-utils`, `python-can`, `pandas`, `scikit-learn`
-
-### 1. Initialize Virtual CAN
-```bash
-sudo modprobe vcan
-sudo ip link add dev vcan0 type vcan
-sudo ip link set up vcan0
-
-python3 detector.py
-
-# Terminal 1: Start ECU simulator
-./ecu_engine > /dev/null 2>&1 &
-
-# Terminal 2: Start inline firewall
-python3 firewall_filter.py
-
-# Terminal 3: Inject attack traffic
-python3 attack_injector.py
-
-Performance & Evaluation Summary
-Anomaly Detection Algorithm: Isolation Forest (Unsupervised)
-
-Dataset Size: 1,894 processed frames
-
-Anomalies Detected (Offline): 284 frames
-
-Real-Time Firewall Performance:
-
-DoS Frames Dropped (0x000): 490 frames (100% mitigation)
-
-RPM Spoofed Frames Dropped (0x120 > 8000 RPM): 30 frames (100% mitigation)
-
-Total Malicious Frames Dropped: 520 frames
-
----
