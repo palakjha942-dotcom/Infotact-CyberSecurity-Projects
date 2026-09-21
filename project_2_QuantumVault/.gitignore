@@ -1,0 +1,5 @@
+bin_*
+vault_mount/
+vault_storage/
+*.o
+liboqs/
