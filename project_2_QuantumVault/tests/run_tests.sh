@@ -15,7 +15,7 @@ echo "=========================================="
 
 # 1. Compile Kyber Test Binary
 echo -n "[TEST 1] Compiling Kyber-512 PQC Test Harness... "
-gcc -O2 src/test_kyber.c -o tests/test_kyber -loqs -lcrypto
+gcc -O2 src/test_kyber.c -o tests/test_kyber -loqs -loqs -lcrypto
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}SUCCESS${NC}"
 else
@@ -35,7 +35,7 @@ fi
 
 # 3. Compile QuantumVault FUSE Filesystem
 echo -n "[TEST 3] Compiling QuantumVault FUSE Filesystem Target... "
-gcc -Wall -O2 `pkg-config fuse3 --cflags` src/quantum_vault.c `pkg-config fuse3 --libs` -lcrypto -o tests/quantum_vault
+gcc -Wall -O2 `pkg-config fuse3 --cflags` src/quantum_vault.c `pkg-config fuse3 --libs` -loqs -lcrypto -o tests/quantum_vault
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}SUCCESS${NC}"
 else
