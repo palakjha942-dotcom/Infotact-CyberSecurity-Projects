@@ -1,18 +1,11 @@
 CC = gcc
-CFLAGS = -Wall -O2 `pkg-config fuse3 --cflags`
-LDFLAGS = `pkg-config fuse3 --libs` -loqs -lcrypto
+CFLAGS = -Wall -Wextra -O2 -D_FILE_OFFSET_BITS=64 $(shell pkg-config --cflags fuse3)
+LDFLAGS = $(shell pkg-config --libs fuse3) -loqs -lcrypto
 
-all: quantum_vault test_kyber
+all: quantum_vault
 
-quantum_vault: src/quantum_vault.c
-	$(CC) $(CFLAGS) src/quantum_vault.c $(LDFLAGS) -o quantum_vault
-
-test_kyber: src/test_kyber.c
-	$(CC) -O2 src/test_kyber.c -loqs -lcrypto -o test_kyber
-
-test: all
-	chmod +x tests/run_tests.sh
-	./tests/run_tests.sh
+quantum_vault: src/vault_fuse.c src/dilithium_engine.c
+	$(CC) $(CFLAGS) src/vault_fuse.c src/dilithium_engine.c -o quantum_vault $(LDFLAGS)
 
 clean:
-	rm -f quantum_vault test_kyber tests/quantum_vault tests/test_kyber
+	rm -f quantum_vault
