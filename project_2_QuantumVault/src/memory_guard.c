@@ -3,15 +3,26 @@
 #include <string.h>
 #include <sys/mman.h>
 
+int protect_buffer_dumps(void *ptr, size_t size) {
+    if (!ptr || size == 0) return -1;
+#ifdef MADV_DONTDUMP
+    return madvise(ptr, size, MADV_DONTDUMP);
+#else
+    return 0;
+#endif
+}
+
 void *secure_malloc(size_t size) {
     if (size == 0) return NULL;
     void *ptr = malloc(size);
     if (!ptr) return NULL;
 
     /* Lock memory in RAM to prevent disk swapping */
-    if (mlock(ptr, size) != 0) {
-        /* If unprivileged user exceeds RLIMIT_MEMLOCK, fallback safely */
-    }
+    mlock(ptr, size);
+
+    /* Prevent inclusion in crash core dumps */
+    protect_buffer_dumps(ptr, size);
+
     return ptr;
 }
 
