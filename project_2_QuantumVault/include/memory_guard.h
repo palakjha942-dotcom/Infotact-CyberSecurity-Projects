@@ -3,13 +3,16 @@
 
 #include <stddef.h>
 
-/* Allocate memory locked into RAM (prevents paging/swap to disk) */
+/* Allocate locked, non-dumpable memory in RAM */
 void *secure_malloc(size_t size);
 
-/* Securely wipe buffer using compiler-barrier zeroization */
+/* Compiler barrier zeroization */
 void secure_zero(void *ptr, size_t size);
 
-/* Unlock and free secure memory */
+/* Unlock, wipe and free secure buffer */
 void secure_free(void *ptr, size_t size);
+
+/* Disable core dump creation for sensitive memory areas */
+int protect_buffer_dumps(void *ptr, size_t size);
 
 #endif /* MEMORY_GUARD_H */
