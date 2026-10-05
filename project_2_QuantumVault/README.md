@@ -36,3 +36,9 @@ gcc -O2 tests/benchmark.c -o tests/benchmark -loqs -lcrypto
 | **Kyber-512 (ML-KEM)** | Encapsulation | ~37.36 µs/op |
 | **Kyber-512 (ML-KEM)** | Decapsulation | ~33.22 µs/op |
 | **AES-256-GCM** | 4KB Block Encryption | ~4.35 µs/op |
+
+## Week 4 Milestones Completed
+- Implemented secure memory management (`mlock`, `explicit_bzero`, and `MADV_DONTDUMP`).
+- Integrated hardened session key allocation inside FUSE read handler.
+- Created PBKDF2-HMAC-SHA256 key derivation module.
+- Added comprehensive CLI interface, automated test suite, and performance benchmarks.
